@@ -57,6 +57,7 @@ contract SubscriptionModule {
         address indexed recipient,
         uint256 amount,
         uint256 frequency,
+        bool mintingEnabled,
         Category category,
         uint256 creationTimestamp
     );
@@ -75,6 +76,7 @@ contract SubscriptionModule {
         address recipient,
         uint256 amount,
         uint256 frequency,
+        bool enableMinting,
         Category category
     )
         external
@@ -87,11 +89,12 @@ contract SubscriptionModule {
             amount: amount,
             lastRedeemed: block.timestamp - frequency,
             frequency: frequency,
+            mintingEnabled: enableMinting,
             category: category
         });
         id = sub.compute();
         _subscribe(id, sub);
-        emit SubscriptionCreated(id, msg.sender, recipient, amount, frequency, category, block.timestamp);
+        emit SubscriptionCreated(id, msg.sender, recipient, amount, frequency, enableMinting, category, block.timestamp);
     }
 
     function redeem(bytes32 id, bytes calldata data) external {
@@ -100,6 +103,14 @@ contract SubscriptionModule {
 
         uint256 periods = (block.timestamp - sub.lastRedeemed) / sub.frequency;
         require(periods >= 1, Errors.NotRedeemable());
+
+        if (sub.mintingEnabled) {
+            require(
+                ISafe(sub.subscriber)
+                    .execTransactionFromModule(HUB, 0, abi.encodeCall(IHubV2.personalMint, ()), Enum.Operation.Call),
+                Errors.MintingFailed()
+            );
+        }
 
         LibTransient.tUint256(T_REDEEMABLE_AMOUNT).set(periods * sub.amount);
         sub.lastRedeemed += periods * sub.frequency;

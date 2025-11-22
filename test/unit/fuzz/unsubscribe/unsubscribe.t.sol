@@ -94,7 +94,7 @@ contract Subscribe_Unit_Fuzz_Test is Base_Test {
         for (uint256 i; i < 3; ++i) {
             vars[i].frequency = bound(vars[i].frequency, 1, SECONDS_PER_YEAR);
             Vars memory v = vars[i];
-            ids[i] = module.subscribe(v.recipient, v.amount, v.frequency, fuzzCategory(v.categoryUint));
+            ids[i] = module.subscribe(v.recipient, v.amount, v.frequency, false, fuzzCategory(v.categoryUint));
         }
 
         for (uint256 i; i < 3; ++i) {

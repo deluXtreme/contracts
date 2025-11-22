@@ -27,7 +27,8 @@ abstract contract Fuzzers is Constants, Utils {
             amount: amount,
             lastRedeemed: lastRedeemed,
             frequency: frequency,
-            category: category
+            category: category,
+            mintingEnabled: false
         });
     }
 

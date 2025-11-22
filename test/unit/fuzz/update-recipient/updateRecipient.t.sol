@@ -15,7 +15,7 @@ contract UpdateRecipient_Unit_Fuzz_Test is Base_Test {
         Base_Test.setUp();
 
         id = module.subscribe(
-            users.recipient, defaults.SUBSCRIPTION_AMOUNT(), defaults.SUBSCRIPTION_FREQUENCY(), Category.trusted
+            users.recipient, defaults.SUBSCRIPTION_AMOUNT(), defaults.SUBSCRIPTION_FREQUENCY(), false, Category.trusted
         );
     }
 

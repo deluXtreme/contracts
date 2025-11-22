@@ -24,7 +24,13 @@ contract Subscribe_Unit_Fuzz_Test is Base_Test {
         vm.assume(lr <= block.timestamp);
 
         Subscription memory sub = Subscription({
-            subscriber: s, recipient: r, amount: a, lastRedeemed: lr, frequency: f, category: Category.trusted
+            subscriber: s,
+            recipient: r,
+            amount: a,
+            lastRedeemed: lr,
+            frequency: f,
+            category: Category.trusted,
+            mintingEnabled: false
         });
 
         bytes32 id = sub.compute();
@@ -67,7 +73,7 @@ contract Subscribe_Unit_Fuzz_Test is Base_Test {
 
     function testFuzz_ShouldRevert_ZeroFrequency(address recipient, uint256 amount) external givenIdentifierNotExists {
         vm.expectRevert(Errors.InvalidFrequency.selector);
-        module.subscribe(recipient, amount, 0, Category.trusted);
+        module.subscribe(recipient, amount, 0, false, Category.trusted);
     }
 
     function testFuzz_Subscribe(
@@ -88,15 +94,23 @@ contract Subscribe_Unit_Fuzz_Test is Base_Test {
             amount: amount,
             lastRedeemed: vm.getBlockTimestamp() - frequency,
             frequency: frequency,
-            category: Category.trusted
+            category: Category.trusted,
+            mintingEnabled: false
         });
 
         vm.expectEmit();
         emit SubscriptionModule.SubscriptionCreated(
-            sub.compute(), users.subscriber, recipient, amount, frequency, Category.trusted, vm.getBlockTimestamp()
+            sub.compute(),
+            users.subscriber,
+            recipient,
+            amount,
+            frequency,
+            false,
+            Category.trusted,
+            vm.getBlockTimestamp()
         );
 
-        bytes32 id = module.subscribe(recipient, amount, frequency, Category.trusted);
+        bytes32 id = module.subscribe(recipient, amount, frequency, false, Category.trusted);
 
         assertEq(module.getSubscription(id), sub);
         bytes32[] memory ids = new bytes32[](1);

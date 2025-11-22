@@ -7,6 +7,7 @@ struct Subscription {
     uint256 amount;
     uint256 lastRedeemed;
     uint256 frequency;
+    bool mintingEnabled;
     Category category;
 }
 
