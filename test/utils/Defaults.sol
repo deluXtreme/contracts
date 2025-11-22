@@ -50,7 +50,8 @@ contract Defaults is Constants {
             amount: SUBSCRIPTION_AMOUNT,
             lastRedeemed: START_TIME - SUBSCRIPTION_FREQUENCY,
             frequency: SUBSCRIPTION_FREQUENCY,
-            category: Category.trusted
+            category: Category.trusted,
+            mintingEnabled: false
         });
     }
 
@@ -61,7 +62,8 @@ contract Defaults is Constants {
             amount: SUBSCRIPTION_AMOUNT,
             lastRedeemed: START_TIME - SUBSCRIPTION_FREQUENCY,
             frequency: SUBSCRIPTION_FREQUENCY,
-            category: Category.untrusted
+            category: Category.untrusted,
+            mintingEnabled: false
         });
     }
 
@@ -72,7 +74,8 @@ contract Defaults is Constants {
             amount: 0,
             lastRedeemed: 0,
             frequency: 0,
-            category: Category.trusted
+            category: Category.trusted,
+            mintingEnabled: false
         });
     }
 }

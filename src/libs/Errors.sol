@@ -2,6 +2,8 @@
 pragma solidity ^0.8.28;
 
 library Errors {
+    error MintingFailed();
+
     error ExecutionFailed();
 
     error InvalidAmount();

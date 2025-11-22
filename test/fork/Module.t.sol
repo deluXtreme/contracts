@@ -37,7 +37,7 @@ contract Module_Fork_Test is Fork_Test {
         ) = _toTypeFlowInfo(info);
 
         resetPrank({ msgSender: FROM });
-        bytes32 id = module.subscribe(info.to, info.value, 3600, Category.trusted);
+        bytes32 id = module.subscribe(info.to, info.value, 3600, false, Category.trusted);
 
         resetPrank({ msgSender: info.to });
         bytes memory data = abi.encode(flowVertices, flowEdges, streams, packedCoordinates, sourceCoordinate);
@@ -52,7 +52,7 @@ contract Module_Fork_Test is Fork_Test {
         _enableModule();
 
         resetPrank({ msgSender: FROM });
-        bytes32 id = module.subscribe(info.to, info.value, 3600, Category.untrusted);
+        bytes32 id = module.subscribe(info.to, info.value, 3600, false, Category.untrusted);
 
         uint256 cachedToBal = hub.balanceOf(info.to, uint256(uint160(FROM)));
         uint256 cachedFromBal = hub.balanceOf(FROM, uint256(uint160(FROM)));
@@ -73,7 +73,7 @@ contract Module_Fork_Test is Fork_Test {
         _enableModule();
 
         resetPrank({ msgSender: FROM });
-        bytes32 id = module.subscribe(info.to, info.value, 3600, Category.untrusted);
+        bytes32 id = module.subscribe(info.to, info.value, 3600, false, Category.untrusted);
 
         uint256 cachedToBal = hub.balanceOf(info.to, uint256(uint160(FROM)));
         uint256 cachedFromBal = hub.balanceOf(FROM, uint256(uint160(FROM)));
@@ -94,7 +94,7 @@ contract Module_Fork_Test is Fork_Test {
         _enableModule();
 
         resetPrank({ msgSender: FROM });
-        bytes32 id = module.subscribe(info.to, info.value, 3600, Category.untrusted);
+        bytes32 id = module.subscribe(info.to, info.value, 3600, false, Category.untrusted);
         module.unsubscribe(id);
 
         resetPrank({ msgSender: info.to });
@@ -109,7 +109,7 @@ contract Module_Fork_Test is Fork_Test {
         _enableModule();
 
         resetPrank({ msgSender: FROM });
-        bytes32 id = module.subscribe(info.to, info.value, 3600, Category.untrusted);
+        bytes32 id = module.subscribe(info.to, info.value, 3600, false, Category.untrusted);
 
         resetPrank({ msgSender: info.to });
         module.redeem(id, "");

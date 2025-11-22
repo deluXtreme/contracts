@@ -29,4 +29,6 @@ interface IHubV2 is IERC1155, ICircles {
         bytes calldata _packedCoordinates
     )
         external;
+
+    function personalMint() external;
 }
