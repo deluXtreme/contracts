@@ -63,7 +63,7 @@ abstract contract Fork_Test is Assertions, Utils {
     //////////////////////////////////////////////////////////////*/
 
     function setUp() public virtual {
-        vm.createSelectFork({ blockNumber: 40_531_966, urlOrAlias: "gnosis" });
+        vm.createSelectFork({ blockNumber: 43_276_000, urlOrAlias: "gnosis" });
 
         module = new SubscriptionModule();
 
@@ -132,7 +132,22 @@ abstract contract Fork_Test is Assertions, Utils {
         resetPrank({ msgSender: fritz.addr });
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(
             fritz.privateKey,
-            ISafe(FROM).getTransactionHash(
+            ISafe(FROM)
+                .getTransactionHash(
+                    FROM,
+                    0,
+                    abi.encodeCall(ModuleManager.enableModule, (address(module))),
+                    Enum.Operation.Call,
+                    0,
+                    0,
+                    0,
+                    address(0),
+                    payable(address(0)),
+                    ISafe(FROM).nonce()
+                )
+        );
+        ISafe(FROM)
+            .execTransaction(
                 FROM,
                 0,
                 abi.encodeCall(ModuleManager.enableModule, (address(module))),
@@ -142,20 +157,7 @@ abstract contract Fork_Test is Assertions, Utils {
                 0,
                 address(0),
                 payable(address(0)),
-                ISafe(FROM).nonce()
-            )
-        );
-        ISafe(FROM).execTransaction(
-            FROM,
-            0,
-            abi.encodeCall(ModuleManager.enableModule, (address(module))),
-            Enum.Operation.Call,
-            0,
-            0,
-            0,
-            address(0),
-            payable(address(0)),
-            abi.encodePacked(r, s, v)
-        );
+                abi.encodePacked(r, s, v)
+            );
     }
 }

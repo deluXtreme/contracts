@@ -184,12 +184,13 @@ contract SubscriptionModule {
         amounts[0] = sub.amount;
 
         require(
-            ISafe(sub.subscriber).execTransactionFromModule(
-                HUB,
-                0,
-                abi.encodeCall(IHubV2.groupMint, (sub.recipient, collateralAvatars, amounts, "")),
-                Enum.Operation.Call
-            ),
+            ISafe(sub.subscriber)
+                .execTransactionFromModule(
+                    HUB,
+                    0,
+                    abi.encodeCall(IHubV2.groupMint, (sub.recipient, collateralAvatars, amounts, "")),
+                    Enum.Operation.Call
+                ),
             Errors.ExecutionFailed()
         );
 
@@ -217,12 +218,13 @@ contract SubscriptionModule {
         require(flow.extractAmount() == LibTransient.tUint256(T_REDEEMABLE_AMOUNT).get(), Errors.InvalidAmount());
 
         require(
-            ISafe(sub.subscriber).execTransactionFromModule(
-                HUB,
-                0,
-                abi.encodeCall(IHubV2.operateFlowMatrix, (flowVertices, flow, streams, packedCoordinates)),
-                Enum.Operation.Call
-            ),
+            ISafe(sub.subscriber)
+                .execTransactionFromModule(
+                    HUB,
+                    0,
+                    abi.encodeCall(IHubV2.operateFlowMatrix, (flowVertices, flow, streams, packedCoordinates)),
+                    Enum.Operation.Call
+                ),
             Errors.ExecutionFailed()
         );
 
@@ -232,21 +234,22 @@ contract SubscriptionModule {
 
     function _redeemUntrusted(bytes32 id, Subscription memory sub) internal {
         require(
-            ISafe(sub.subscriber).execTransactionFromModule(
-                HUB,
-                0,
-                abi.encodeCall(
-                    ERC1155.safeTransferFrom,
-                    (
-                        sub.subscriber,
-                        sub.recipient,
-                        _toTokenId(sub.subscriber),
-                        LibTransient.tUint256(T_REDEEMABLE_AMOUNT).get(),
-                        ""
-                    )
+            ISafe(sub.subscriber)
+                .execTransactionFromModule(
+                    HUB,
+                    0,
+                    abi.encodeCall(
+                        ERC1155.safeTransferFrom,
+                        (
+                            sub.subscriber,
+                            sub.recipient,
+                            _toTokenId(sub.subscriber),
+                            LibTransient.tUint256(T_REDEEMABLE_AMOUNT).get(),
+                            ""
+                        )
+                    ),
+                    Enum.Operation.Call
                 ),
-                Enum.Operation.Call
-            ),
             Errors.ExecutionFailed()
         );
 

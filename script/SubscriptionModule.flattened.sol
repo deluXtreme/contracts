@@ -18,12 +18,12 @@ pragma solidity <0.9.0 >=0.7.0 >=0.8.24 ^0.8.0 ^0.8.20 ^0.8.28 ^0.8.4;
  */
 library ABDKMath64x64 {
     /*
-    * Minimum value signed 64.64-bit fixed point number may have. 
+    * Minimum value signed 64.64-bit fixed point number may have.
     */
     int128 private constant MIN_64x64 = -0x80000000000000000000000000000000;
 
     /*
-    * Maximum value signed 64.64-bit fixed point number may have. 
+    * Maximum value signed 64.64-bit fixed point number may have.
     */
     int128 private constant MAX_64x64 = 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
 
@@ -5885,10 +5885,7 @@ contract Demurrage is ICirclesCompactErrors, ICirclesDemurrageErrors {
      * @param _inflationaryValue Inflationary value to convert to demurrage value.
      * @param _day Day since inflation_day_zero to convert the inflationary value to a demurrage value.
      */
-    function convertInflationaryToDemurrageValue(
-        uint256 _inflationaryValue,
-        uint64 _day
-    )
+    function convertInflationaryToDemurrageValue(uint256 _inflationaryValue, uint64 _day)
         public
         pure
         returns (uint256)
@@ -5937,13 +5934,7 @@ contract Demurrage is ICirclesCompactErrors, ICirclesDemurrageErrors {
         return ABDKMath64x64.mulu(r, _balance);
     }
 
-    function _calculateDiscountedBalanceAndCache(
-        uint256 _balance,
-        uint256 _daysDifference
-    )
-        internal
-        returns (uint256)
-    {
+    function _calculateDiscountedBalanceAndCache(uint256 _balance, uint256 _daysDifference) internal returns (uint256) {
         if (_daysDifference == 0) {
             return _balance;
         }
@@ -6011,7 +6002,6 @@ library Math {
         Ceil, // Toward positive infinity
         Trunc, // Toward zero
         Expand // Away from zero
-
     }
 
     /**
@@ -6248,8 +6238,10 @@ library Math {
             // Shift in bits from high into low.
             low |= high * twos;
 
-            // Invert denominator mod 2²⁵⁶. Now that denominator is an odd number, it has an inverse modulo 2²⁵⁶ such
-            // that denominator * inv ≡ 1 mod 2²⁵⁶. Compute the inverse by starting with a seed that is correct for
+            // Invert denominator mod 2²⁵⁶. Now that denominator is an odd number, it has an inverse modulo
+            // 2²⁵⁶ such
+            // that denominator * inv ≡ 1 mod 2²⁵⁶. Compute the inverse by starting with a seed that is correct
+            // for
             // four bits. That is, denominator * inv ≡ 1 mod 2⁴.
             uint256 inverse = (3 * denominator) ^ 2;
 
@@ -6263,8 +6255,10 @@ library Math {
             inverse *= 2 - denominator * inverse; // inverse mod 2²⁵⁶
 
             // Because the division is now exact we can divide by multiplying with the modular inverse of denominator.
-            // This will give us the correct result modulo 2²⁵⁶. Since the preconditions guarantee that the outcome is
-            // less than 2²⁵⁶, this is the final result. We don't need to compute the high bits of the result and high
+            // This will give us the correct result modulo 2²⁵⁶. Since the preconditions guarantee that the outcome
+            // is
+            // less than 2²⁵⁶, this is the final result. We don't need to compute the high bits of the result and
+            // high
             // is no longer required.
             result = low * inverse;
             return result;
@@ -6333,7 +6327,8 @@ library Math {
             while (remainder != 0) {
                 uint256 quotient = gcd / remainder;
 
-                (gcd, remainder) = (
+                (gcd, remainder) =
+                (
                     // The old remainder is the next gcd to try.
                     remainder,
                     // Compute the next remainder.
@@ -6342,7 +6337,8 @@ library Math {
                     gcd - remainder * quotient
                 );
 
-                (x, y) = (
+                (x, y) =
+                (
                     // Increment the coefficient of a.
                     y,
                     // Decrement the coefficient of n.
@@ -6502,7 +6498,8 @@ library Math {
             // the current value as `ε_n = | x_n - sqrt(a) |`.
             //
             // For our first estimation, we consider `e` the smallest power of 2 which is bigger than the square root
-            // of the target. (i.e. `2**(e-1) ≤ sqrt(a) < 2**e`). We know that `e ≤ 128` because `(2¹²⁸)² = 2²⁵⁶` is
+            // of the target. (i.e. `2**(e-1) ≤ sqrt(a) < 2**e`). We know that `e ≤ 128` because `(2¹²⁸)² =
+            // 2²⁵⁶` is
             // bigger than any uint256.
             //
             // By noticing that
@@ -6954,7 +6951,8 @@ library Arrays {
      * This function does the sorting "in place", meaning that it overrides the input. The object is returned for
      * convenience, but that returned value can be discarded safely if the caller has a memory pointer to the array.
      *
-     * NOTE: this function's cost is `O(n · log(n))` in average and `O(n²)` in the worst case, with n the length of the
+     * NOTE: this function's cost is `O(n · log(n))` in average and `O(n²)` in the worst case, with n the length of
+     * the
      * array. Using it in view functions that are executed through `eth_call` is safe, but one should be very careful
      * when executing this as part of a transaction. If the array being sorted is too large, the sort operation may
      * consume more gas than is available in a block, leading to potential DoS.
@@ -6988,7 +6986,8 @@ library Arrays {
      * This function does the sorting "in place", meaning that it overrides the input. The object is returned for
      * convenience, but that returned value can be discarded safely if the caller has a memory pointer to the array.
      *
-     * NOTE: this function's cost is `O(n · log(n))` in average and `O(n²)` in the worst case, with n the length of the
+     * NOTE: this function's cost is `O(n · log(n))` in average and `O(n²)` in the worst case, with n the length of
+     * the
      * array. Using it in view functions that are executed through `eth_call` is safe, but one should be very careful
      * when executing this as part of a transaction. If the array being sorted is too large, the sort operation may
      * consume more gas than is available in a block, leading to potential DoS.
@@ -7022,7 +7021,8 @@ library Arrays {
      * This function does the sorting "in place", meaning that it overrides the input. The object is returned for
      * convenience, but that returned value can be discarded safely if the caller has a memory pointer to the array.
      *
-     * NOTE: this function's cost is `O(n · log(n))` in average and `O(n²)` in the worst case, with n the length of the
+     * NOTE: this function's cost is `O(n · log(n))` in average and `O(n²)` in the worst case, with n the length of
+     * the
      * array. Using it in view functions that are executed through `eth_call` is safe, but one should be very careful
      * when executing this as part of a transaction. If the array being sorted is too large, the sort operation may
      * consume more gas than is available in a block, leading to potential DoS.
@@ -7554,7 +7554,14 @@ abstract contract ERC1155 is DiscountedBalances, Context, ERC165, IERC1155, IERC
      * Clients calling this function must replace the `\{id\}` substring with the
      * actual token type ID.
      */
-    function uri(uint256 /* id */ ) public view virtual returns (string memory) {
+    function uri(
+        uint256 /* id */
+    )
+        public
+        view
+        virtual
+        returns (string memory)
+    {
         return _uri;
     }
 
@@ -7992,8 +7999,9 @@ abstract contract ERC1155 is DiscountedBalances, Context, ERC165, IERC1155, IERC
         private
     {
         if (to.code.length > 0) {
-            try IERC1155Receiver(to).onERC1155BatchReceived(operator, from, ids, values, data) returns (bytes4 response)
-            {
+            try IERC1155Receiver(to).onERC1155BatchReceived(operator, from, ids, values, data) returns (
+                bytes4 response
+            ) {
                 if (response != IERC1155Receiver.onERC1155BatchReceived.selector) {
                     // Tokens rejected
                     revert ERC1155InvalidReceiver(to);
@@ -8184,12 +8192,13 @@ contract SubscriptionModule {
         amounts[0] = sub.amount;
 
         require(
-            ISafe(sub.subscriber).execTransactionFromModule(
-                HUB,
-                0,
-                abi.encodeCall(IHubV2_1.groupMint, (sub.recipient, collateralAvatars, amounts, "")),
-                Enum.Operation.Call
-            ),
+            ISafe(sub.subscriber)
+                .execTransactionFromModule(
+                    HUB,
+                    0,
+                    abi.encodeCall(IHubV2_1.groupMint, (sub.recipient, collateralAvatars, amounts, "")),
+                    Enum.Operation.Call
+                ),
             Errors.ExecutionFailed()
         );
 
@@ -8217,12 +8226,13 @@ contract SubscriptionModule {
         require(flow.extractAmount() == LibTransient.tUint256(T_REDEEMABLE_AMOUNT).get(), Errors.InvalidAmount());
 
         require(
-            ISafe(sub.subscriber).execTransactionFromModule(
-                HUB,
-                0,
-                abi.encodeCall(IHubV2_1.operateFlowMatrix, (flowVertices, flow, streams, packedCoordinates)),
-                Enum.Operation.Call
-            ),
+            ISafe(sub.subscriber)
+                .execTransactionFromModule(
+                    HUB,
+                    0,
+                    abi.encodeCall(IHubV2_1.operateFlowMatrix, (flowVertices, flow, streams, packedCoordinates)),
+                    Enum.Operation.Call
+                ),
             Errors.ExecutionFailed()
         );
 
@@ -8232,21 +8242,22 @@ contract SubscriptionModule {
 
     function _redeemUntrusted(bytes32 id, Subscription memory sub) internal {
         require(
-            ISafe(sub.subscriber).execTransactionFromModule(
-                HUB,
-                0,
-                abi.encodeCall(
-                    ERC1155.safeTransferFrom,
-                    (
-                        sub.subscriber,
-                        sub.recipient,
-                        _toTokenId(sub.subscriber),
-                        LibTransient.tUint256(T_REDEEMABLE_AMOUNT).get(),
-                        ""
-                    )
+            ISafe(sub.subscriber)
+                .execTransactionFromModule(
+                    HUB,
+                    0,
+                    abi.encodeCall(
+                        ERC1155.safeTransferFrom,
+                        (
+                            sub.subscriber,
+                            sub.recipient,
+                            _toTokenId(sub.subscriber),
+                            LibTransient.tUint256(T_REDEEMABLE_AMOUNT).get(),
+                            ""
+                        )
+                    ),
+                    Enum.Operation.Call
                 ),
-                Enum.Operation.Call
-            ),
             Errors.ExecutionFailed()
         );
 
