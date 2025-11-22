@@ -63,7 +63,7 @@ abstract contract Fork_Test is Assertions, Utils {
     //////////////////////////////////////////////////////////////*/
 
     function setUp() public virtual {
-        vm.createSelectFork({ blockNumber: 40_531_966, urlOrAlias: "gnosis" });
+        vm.createSelectFork({ blockNumber: 43_276_000, urlOrAlias: "gnosis" });
 
         module = new SubscriptionModule();
 
