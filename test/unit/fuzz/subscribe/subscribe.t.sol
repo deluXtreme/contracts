@@ -24,12 +24,7 @@ contract Subscribe_Unit_Fuzz_Test is Base_Test {
         vm.assume(lr <= block.timestamp);
 
         Subscription memory sub = Subscription({
-            subscriber: s,
-            recipient: r,
-            amount: a,
-            lastRedeemed: lr,
-            frequency: f,
-            category: Category.trusted
+            subscriber: s, recipient: r, amount: a, lastRedeemed: lr, frequency: f, category: Category.trusted
         });
 
         bytes32 id = sub.compute();
